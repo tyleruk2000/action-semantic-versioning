@@ -34,9 +34,13 @@ jobs:
           bump_each_commit: false
 
       - name: Create Tag
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        uses: actions/github-script@v3
         with:
-          tag_name: ${{ steps.get_version.outputs.version}}
-          prerelease: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: "refs/tags/${{ steps.get_version.outputs.version }}}",
+              sha: context.sha
+            })
