@@ -31,3 +31,4 @@ jobs:
           format: "${major}.${minor}.${increment}"
           # If this is set to true, *every* commit will be treated as a new version.
           bump_each_commit: false
+          
