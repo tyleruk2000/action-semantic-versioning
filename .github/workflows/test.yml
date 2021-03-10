@@ -20,6 +20,7 @@ jobs:
         run: echo Hello, world!
 
       - uses: paulhatch/semantic-version@v4
+        id: get_version
         with:
           tag_prefix: ""
           # A string which, if present in a git commit, indicates that a change represents a
@@ -28,7 +29,11 @@ jobs:
           # Same as above except indicating a minor change, supports regular expressions wrapped with '/'
           minor_pattern: "(MINOR)"
           # A string to determine the format of the version output
-          format: "${major}.${minor}.${increment}"
+          format: "${major}.${minor}.${patch}"
           # If this is set to true, *every* commit will be treated as a new version.
           bump_each_commit: false
-          
+
+      - name: Create Tag
+        run: |
+          echo "version:" + ${{ steps.get_version.outputs.version}}
+          echo "version_tag:" + ${{ steps.get_version.outputs.version_tag}}
